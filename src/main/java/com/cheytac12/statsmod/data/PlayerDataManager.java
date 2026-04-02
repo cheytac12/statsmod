@@ -10,9 +10,9 @@ import net.minecraft.util.WorldSavePath;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Tracks per-player data: first join timestamp and last seen timestamp.
@@ -21,7 +21,7 @@ import java.util.UUID;
 public class PlayerDataManager {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final Map<UUID, PlayerData> CACHE = new HashMap<>();
+    private static final Map<UUID, PlayerData> CACHE = new ConcurrentHashMap<>();
 
     public static class PlayerData {
         public long firstJoin = 0L;
@@ -56,7 +56,7 @@ public class PlayerDataManager {
     /** Called when a player disconnects. Updates last seen timestamp. */
     public static void onPlayerDisconnect(ServerPlayerEntity player, MinecraftServer server) {
         UUID uuid = player.getUuid();
-        PlayerData data = CACHE.getOrDefault(uuid, new PlayerData());
+        PlayerData data = CACHE.getOrDefault(uuid, load(uuid, server));
         data.lastSeen = System.currentTimeMillis();
         save(uuid, data, server);
         CACHE.remove(uuid);

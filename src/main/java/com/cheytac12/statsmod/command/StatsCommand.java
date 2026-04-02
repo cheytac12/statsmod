@@ -13,7 +13,6 @@ import net.minecraft.util.WorldSavePath;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.text.DecimalFormat;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
@@ -21,6 +20,8 @@ import java.util.stream.Stream;
  * Registers the /stats command.
  *
  * <p>/stats — shows server creation date, world file size, and in-game day count.
+ * Note: the world-size calculation walks the entire world directory and may take
+ * a moment on very large worlds.
  * <p>/stats setcreation <date> — (op level 2) sets the server creation date.
  */
 public class StatsCommand {
@@ -56,7 +57,7 @@ public class StatsCommand {
 
         double sizeGb = directorySizeBytes(server.getSavePath(WorldSavePath.ROOT))
                 / (1024.0 * 1024.0 * 1024.0);
-        String sizeStr = new DecimalFormat("#.##").format(sizeGb) + " GB";
+        String sizeStr = String.format("%.2f GB", sizeGb);
 
         long inGameDays = server.getOverworld().getTime() / 24000L;
 
