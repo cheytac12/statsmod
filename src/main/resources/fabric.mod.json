@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "statsmod",
+  "version": "${version}",
+  "name": "StatsMod",
+  "description": "Provides /stats and /joindate commands for server administrators and players.",
+  "authors": [
+    "cheytac12"
+  ],
+  "contact": {
+    "sources": "https://github.com/cheytac12/statsmod"
+  },
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.cheytac12.statsmod.StatsMod"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.14.0",
+    "fabric-api": "*",
+    "minecraft": "1.21.1",
+    "java": ">=21"
+  }
+}
