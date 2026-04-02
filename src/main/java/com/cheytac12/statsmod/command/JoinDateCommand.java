@@ -56,7 +56,7 @@ public class JoinDateCommand {
 
         // Vanilla tracks play time in ticks (stat key: play_one_minute).
         int ticks = player.getStatHandler().getStat(
-                Stats.CUSTOM.getOrCreateStat(Stats.PLAY_TIME)
+                Stats.CUSTOM.getOrCreateStat(Stats.PLAY_TIME);
         String timePlayed = formatTicks(ticks);
 
         String name = player.getName().getString();
